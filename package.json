@@ -1,0 +1,15 @@
+{
+  "name": "doctrine_potion_mixer",
+  "version": "1.0.0",
+  "description": "Doctrine Potion Mixer",
+  "author": "Raphael Moutard <raphael.moutard@gmail.com>",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.16.1"
+  }
+}
+
+
