@@ -1,12 +1,16 @@
 'use strict';
 
 const express = require('express');
-const datastore = require('./datastore.js');
+const Datastore = require('./datastore.js');
+const data = require('./data.js');
+
 const util = require('util')
 
 // Constants
 const PORT = 8080;
 const HOST = '0.0.0.0';
+
+const datastore = new Datastore();
 
 // App
 const app = express();
@@ -17,17 +21,17 @@ app.get('/', (req, res) => {
 app.get('/users', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
 
-  const users = datastore.users;
+  const users = datastore.getUsers();
   res.send(JSON.stringify(users));
 });
 
 app.get('/users/:userId', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
 
-  const users = datastore.users;
+  const users = datastore.getUsers();
   const userId = req.params.userId;
 
-  var currentUser = getUserPerId(userId);
+  var currentUser = datastore.getUserById(userId);
   if (currentUser) {
     res.send(JSON.stringify(currentUser));
     return;
@@ -40,32 +44,29 @@ app.get('/users/:userId', (req, res) => {
 app.get('/ingredients', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
 
-  const ingredients = datastore.ingredients;
+  const ingredients = datastore.getIngredients();
   res.status(200).send(JSON.stringify(ingredients));
 });
 
 app.get('/ingredients/:ingredientId', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
 
-  const ingredients = datastore.ingredients;
-  const ingredientId = req.params.ingredientId;
-  for (var ingredient of ingredients) {
-    if(ingredient.id === ingredientId) {
-      res.send(JSON.stringify(ingredient));
-      return;
-    }
+  const ingredient = datastore.getIngredientsById(req.params.ingredientId)
+  if (ingredient) {
+    res.send(JSON.stringify(ingredient));
+    return;
   }
+
   res.status(404).send(JSON.stringify({
-    "Error": "Ingredient id: " + userId + " doesn't exist"
+    "Error": "Ingredient id: " + req.params.ingredientId + " doesn't exist"
   }));
 
-  res.status(200).send(JSON.stringify(ingredients));
 });
 
 app.get('/potions', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
 
-  const potions = datastore.potions;
+  const potions = datastore.getPotions();
 
   // Contains just the list of available potion but do not display the receipe
   var ofuscatedPotions = [];
@@ -91,7 +92,7 @@ app.get('/users/:userId/mix/:ingredientIds', (req, res) => {
   }
   //TODO: too much vs not enough ingredients.
 
-  const potions = datastore.potions;
+  const potions = datastore.getPotions();
   for (var potion of potions) {
     var isValidPotion = true;
     for (var ingredientId of ingredientIds) {
@@ -129,7 +130,7 @@ app.put('/users/:userId/consume/:ingredientIds', (req, res) => {
   const userId = req.params.userId;
   const ingredientIds = req.params.ingredientIds.split("-");
 
-  var currentUser = getUserPerId(userId);
+  var currentUser = datastore.getUserById(userId);
   if (currentUser === null) {
     res.status(404).send(JSON.stringify({
       "Error": "UserID " +  userId + "doesn't exist."
@@ -152,26 +153,17 @@ app.put('/users/:userId/consume/:ingredientIds', (req, res) => {
       // decrease the quantity by one
       foundItem.quantity -= 1;
     }
-    // remove items with 0 quantity.
   }
-
-  // TODO: DATASTORE - strongly consistent change of the user.
+  // remove items with 0 quantity.
   currentUser.inventory = inventory.filter(element => element.quantity > 1);
+
+  // strongly consistent put.
+  datastore.putUser(currentUser);
+
   // return the updated user with new inventory.
   res.send(JSON.stringify(currentUser));
   return;
 });
-
-function getUserPerId(userId) {
-  const users = datastore.users;
-  var currentUser = null;
-  for (var user of users) {
-    if (user.id === userId) {
-      currentUser = user;
-    }
-  }
-  return currentUser;
-}
 
 var server =  app.listen(PORT, HOST);
 console.log(`Running on http://${HOST}:${PORT}`);

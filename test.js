@@ -50,6 +50,12 @@ describe('loading express', function () {
       .expect(403, done);
   });
 
+  it('consume ingredients id that you have in your inventory too many times', function testPath(done) {
+    request(server)
+      .put('/users/12/consume/3-3-3')
+      .expect(403, done);
+  });
+
   it('consume ingredients that are in your inventory', function testPath(done) {
     request(server)
       .put('/users/12/consume/3-6-9')
@@ -58,7 +64,14 @@ describe('loading express', function () {
         if (err) throw err;
         assert.equal(res.body.id, 12);
         assert.equal(res.body.inventory.length, 2);
-        done();
       });
+      request(server).get('/users/12')
+        .expect(200)
+        .end(function(err, res) {
+          if (err) throw err;
+          assert.equal(res.body.id, 12);
+          assert.equal(res.body.inventory.length, 2);
+          done();
+        });
   });
 });
