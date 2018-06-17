@@ -100,7 +100,7 @@ exports.potions = [
     "id": 0,
     "name": "Potion de vie",
     "description": "Rend instantanément 60 % points de vie.",
-    "ingredients": ["1", "5", "9"],
+    "ingredients": ["3", "6", "9"],
     "image": "health-potion-red.png"
   },
   {
