@@ -23,23 +23,32 @@
 
 #View {
   display: flex;
+  justify-content: space-between;
+  padding: 50px;
+}
+#InventoryForm {
+  display: flex;
+  justify-content: space-between;
 }
 #Inventory {
   flex: 2;
+  flex-wrap: wrap;
 }
 #Mixer {
   flex: 1;
   align-self: center;
 }
 #PotionsBag {
-  flex: 1;
 }
 
 .InventoryListItems {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .InventoryItem {
+  width: 100px;
+  height: 150px;
   justify-content: space-between;
   align-self: center;
 
@@ -47,19 +56,25 @@
   border-color: #ddd;
   border-style: solid;
 
-  margin: 40px;
+  margin: 10px;
   padding: 12px;
+}
+.InventoryItem h4 {
+  height: 30px;
+  margin: 5px;
+}
+.InventoryItem h5 {
+  height: 20px;
+  margin: 5px;
 }
 .InventoryItemImage {
   width: 50px;
-  height: 60px;
   align-self: center;
-
 }
 
 .PotionItemImage {
   width: 50px;
-  height: 50px;
+  height: 60px;
   align-self: center;
 
 }
@@ -74,10 +89,25 @@
   flex: 1;
 }
 
+.ResultMessage {
+  margin: 20px;
+}
 .MixButton {
-  display: block;
-  margin: auto;
-  margin-top: 40px;
+  background-color: #222;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+.MixButton:hover {
+  color:#ddd;
+  background-color: #707;
+
 }
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }

@@ -9,8 +9,18 @@ exports.users = [
   {
     "id": "12",
     "name": "raphael",
-    "inventory": [{"ingredientId": "3", "quantity": 1}, {"ingredientId": "6", "quantity": 3}, {"ingredientId": "9", "quantity": 7}],
-    "potions": [{"potionId": 4, "quantity": 2}]
+    "inventory": [{"ingredientId": "3", "quantity": 1},
+                  {"ingredientId": "6", "quantity": 3},
+                  {"ingredientId": "9", "quantity": 7},
+                  {"ingredientId": "10", "quantity": 4},
+                  {"ingredientId": "11", "quantity": 2},
+                  {"ingredientId": "12", "quantity": 1},
+                  {"ingredientId": "4", "quantity": 7},
+                ],
+    "potions": [{"potionId": 4, "quantity": 2},
+                {"potionId": 1, "quantity": 1},
+                {"potionId": 2, "quantity": 3},
+                ]
   },
   {
     "id": 13,

@@ -30,6 +30,11 @@ module.exports = class Mixer {
       }
       if (isValidPotion) {
         // We found potion that matches the receipe of ingredients.
+
+        // TODO: We should just update the quantity ( but I don't really have time)
+        currentUser.potions.push({"potionId": potion.id, "quantity":1});
+        this._datastore.putUser(currentUser);
+
         return potion;
       } else {
         throw new Errors.NoPotionError("Too bad this potion doesn't exist");
