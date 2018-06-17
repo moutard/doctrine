@@ -1,0 +1,85 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: medium;
+}
+
+#View {
+  display: flex;
+}
+#Inventory {
+  flex: 2;
+}
+#Mixer {
+  flex: 1;
+  align-self: center;
+}
+#PotionsBag {
+  flex: 1;
+}
+
+.InventoryListItems {
+  display: flex;
+}
+
+.InventoryItem {
+  justify-content: space-between;
+  align-self: center;
+
+  border-width: medium;
+  border-color: #ddd;
+  border-style: solid;
+
+  margin: 40px;
+  padding: 12px;
+}
+.InventoryItemImage {
+  width: 50px;
+  height: 60px;
+  align-self: center;
+
+}
+
+.PotionItemImage {
+  width: 50px;
+  height: 50px;
+  align-self: center;
+
+}
+.InventoryItemInfo {
+  align-self: center;
+}
+.InventoryItemSelect {
+  align-self: center;
+}
+.arrow-logo {
+  margin-top: 40px;
+  flex: 1;
+}
+
+.MixButton {
+  display: block;
+  margin: auto;
+  margin-top: 40px;
+}
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

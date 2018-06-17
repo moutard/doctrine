@@ -77,7 +77,9 @@ app.get('/potions', (req, res) => {
   var ofuscatedPotions = [];
 
   for(let potion of potions) {
-    ofuscatedPotions.push(potion.name);
+    var _oPotion = Object.assign({}, potion);
+    delete _oPotion.ingredients;
+    ofuscatedPotions.push(_oPotion);
   }
 
   res.send(JSON.stringify(ofuscatedPotions));

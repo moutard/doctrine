@@ -10,7 +10,7 @@ exports.users = [
     "id": "12",
     "name": "raphael",
     "inventory": [{"ingredientId": "3", "quantity": 1}, {"ingredientId": "6", "quantity": 3}, {"ingredientId": "9", "quantity": 7}],
-    "potions": []
+    "potions": [{"potionId": 4, "quantity": 2}]
   },
   {
     "id": 13,
@@ -101,14 +101,14 @@ exports.potions = [
     "name": "Potion de vie",
     "description": "Rend instantanément 60 % points de vie.",
     "ingredients": ["3", "6", "9"],
-    "image": "health-potion-red.png"
+    "image": "./media/health-potion-red.png"
   },
   {
     "id": 1,
     "name": "Potion d'amour",
     "description": "Les enemis arretent de vous attaquer pendant 3s.",
     "ingredients": ["10", "11", "12"],
-    "image": "love-potion-pink.png"
+    "image": "./media/love-potion-pink.png"
   },
 
   {
@@ -116,20 +116,20 @@ exports.potions = [
     "name": "Potion de Mana",
     "description": "Rend instantanément 50 % points de mana.",
     "ingredients": ["20", "11", "14"],
-    "image": "mana-potion-blue.png"
+    "image": "./media/mana-potion-blue.png"
   },
   {
     "id": 3,
     "name": "Potion de poison",
     "description": "Tue tous les ennemis a proximité",
     "ingredients": ["27", "26", "25"],
-    "image": "poison-potion-green.png"
+    "image": "./media/poison-potion-green.png"
   },
   {
     "id": 4,
     "name": "Potion de force",
     "description": "Augmente tous vos degats de 40%.",
     "ingredients": ["12", "17", "19"],
-    "image": "science-potion-purple.png"
+    "image": "./media/science-potion-purple.png"
   }
 ];

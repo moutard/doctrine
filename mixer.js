@@ -77,7 +77,6 @@ module.exports = class Mixer {
     // remove items with 0 quantity.
     currentUser.inventory = inventory.filter(element => element.quantity > 0);
 
-    // strongly consistent put.
     return currentUser;
   }
 
