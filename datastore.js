@@ -34,6 +34,19 @@ module.exports = class Datastore {
     return currentUser;
   }
 
+  getUserByName(userName) {
+    const users = this._data.users;
+    var currentUser = null;
+    for (var user of users) {
+      if (user.name.toLowerCase() === userName.toLowerCase()) {
+        // Deep copy to avoid modifying the object itself.
+        // That would be what we get from a real NoSQL datastore.
+        currentUser = JSON.parse(JSON.stringify(user));
+      }
+    }
+    return currentUser;
+  }
+
   getIngredients() {
     return this._data.ingredients;
   }

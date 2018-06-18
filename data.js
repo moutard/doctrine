@@ -23,7 +23,7 @@ exports.users = [
                 ]
   },
   {
-    "id": 13,
+    "id": "13",
     "name": "melvil",
     "inventory": [{"ingredientId": "3", "quantity": 2}, {"ingredientId": "6", "quantity": 3}, {"ingredientId": "9", "quantity": 7}],
     "potions": []

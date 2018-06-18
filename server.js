@@ -9,11 +9,6 @@ const data = require('./data.js');
 const Mixer = require('./mixer.js');
 const Errors = require('./custom-errors.js');
 
-
-// Constants
-const PORT = 8080;
-const HOST = '0.0.0.0';
-
 const datastore = new Datastore(data);
 const mixer = new Mixer(datastore);
 
@@ -23,7 +18,8 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'frontend/build')));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+  //res.sendFile(path.join(__dirname+'/client/build/index.html'));
+  res.send("hello world");
 });
 
 app.get('/users', (req, res) => {
@@ -31,6 +27,22 @@ app.get('/users', (req, res) => {
 
   const users = datastore.getUsers();
   res.send(JSON.stringify(users));
+});
+
+app.get('/usersbyname/:userName', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+
+  const users = datastore.getUsers();
+  const userName = req.params.userName;
+
+  var currentUser = datastore.getUserByName(userName);
+  if (currentUser) {
+    res.send(JSON.stringify(currentUser));
+    return;
+  }
+  res.status(404).send(JSON.stringify({
+    "Error": "User userName: " + userName + " doesn't exist"
+  }));
 });
 
 app.get('/users/:userId', (req, res) => {
@@ -168,7 +180,8 @@ function reset() {
   datastore.reset(require('./data.js'));
 }
 
-var server =  app.listen(PORT, HOST);
-console.log(`Running on http://${HOST}:${PORT}`);
+const port = process.env.PORT || 8080;
+var server =  app.listen(port);
+console.log(`Running on port: ${port}`);
 module.exports = server;
 module.exports.reset = reset;

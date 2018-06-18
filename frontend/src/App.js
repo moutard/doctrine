@@ -2,6 +2,41 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+
+
+class NameForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: ''};
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    this.props.submitName(this.state.value);
+    event.preventDefault();
+  }
+
+  render() {
+    var self = this;
+
+    return (
+      <form class="NameForm" onSubmit={this.handleSubmit}>
+        <label>
+          Name:
+          <input type="text" value={this.state.value} onChange={self.handleChange} />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    );
+  }
+}
+
+
 class MixItemForm extends Component {
 
   constructor(props) {
@@ -77,10 +112,14 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+        username: "",
         user: {},
         message: "You haven't selected ingredient yet.",
         selectedCheckboxes: new Set()
       };
+
+      // Bind the this context to the handler function
+      this.changeUser = this.changeUser.bind(this);
   }
 
   render() {
@@ -88,8 +127,11 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src="./media/cauldron-white.png" className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to the Druid Potion Class {this.state.user.name}. </h1>
+          <h1 className="App-title">Druid Potion</h1>
+
+          <NameForm submitName={this.changeUser}/>
         </header>
+
         <ResultMessage message={this.state.message} />
 
         <div id="View">
@@ -101,7 +143,7 @@ class App extends Component {
   }
 
   refresh () {
-    this.getUser()
+    this.getUser(this.state.user.id)
       .then(res => this.setState({ user: res }))
       .catch(err => console.log(err));
 
@@ -111,9 +153,9 @@ class App extends Component {
 
   componentDidMount() {
 
-    this.getUser()
-      .then(res => this.setState({ user: res }))
-      .catch(err => console.log(err));
+  //  this.getUser()
+  //    .then(res => this.setState({ user: res }))
+  //    .catch(err => console.log(err));
 
     this.getIngredients()
         .then(res => this.setState({ ingredients: res }))
@@ -124,13 +166,19 @@ class App extends Component {
       .catch(err => console.log(err));
   }
 
+  changeUser (userName) {
+    this.findUserByName(userName)
+      .then(res => this.setState({ user: res }))
+      .catch(err => console.log(err));
+  }
+
   getMix = async () => {
     var selectedCheckboxes = []
     this.state.selectedCheckboxes.forEach(function(value) {
       selectedCheckboxes.push(value);
     });
     console.log(selectedCheckboxes.join('-'))
-    const response = await fetch('/users/12/mix/' + selectedCheckboxes.join('-'), {
+    const response = await fetch('/users/'+ this.state.user.id +'/mix/' + selectedCheckboxes.join('-'), {
           method: 'PUT'
     });
     const body = await response.json();
@@ -154,8 +202,17 @@ class App extends Component {
     return body;
   }
 
-  getUser = async () => {
-    const response = await fetch('/users/12');
+  findUserByName = async (name) => {
+    const response = await fetch('/usersbyname/'+name);
+    const body = await response.json();
+    if (response.status !== 200) {
+      throw Error(body.message);
+    }
+    return body;
+  }
+
+  getUser = async (userId) => {
+    const response = await fetch('/users/' + userId);
     const body = await response.json();
     if (response.status !== 200) {
       throw Error(body.message);
