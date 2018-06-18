@@ -1,12 +1,13 @@
 'use strict';
 
 const express = require('express');
-const util = require('util')
+const util = require('util');
+const path = require('path');
 
 const Datastore = require('./datastore.js');
 const data = require('./data.js');
 const Mixer = require('./mixer.js');
-const Errors = require('./custom-errors.js')
+const Errors = require('./custom-errors.js');
 
 
 // Constants
@@ -19,8 +20,10 @@ const mixer = new Mixer(datastore);
 
 // App
 const app = express();
+app.use(express.static(path.join(__dirname, 'frontend/build')));
+
 app.get('/', (req, res) => {
-  res.send('Hello world\n');
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
 });
 
 app.get('/users', (req, res) => {
